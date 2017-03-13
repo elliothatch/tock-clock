@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"github.com/fresh4less/neopixel-display/neopixeldisplay"
-	"time"
 )
 
 const minutesLedCount = 60;
@@ -19,6 +18,10 @@ func main() {
 		display = neopixeldisplay.NewNeopixelDisplay(18, minutesLedCount+hoursLedCount, 255)
 	}
 	clockDisplay := NewClockDisplay(display)
-	clockDisplay.displayTime(time.Now())
+	clock := NewClockTimer(nil)
+	for(true) {
+		now := <-clock.C
+		clockDisplay.displayTime(now)
+	}
 }
 
